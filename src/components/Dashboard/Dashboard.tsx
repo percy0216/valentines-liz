@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, ShieldCheck, Gift, EyeOff, Power } from 'lucide-react'; 
+import { Lock, ShieldCheck, EyeOff, Power } from 'lucide-react'; 
 import Typewriter from 'typewriter-effect';
 import CouponCard from './CouponCard';
 import LoveAnalysis from './LoveAnalysis';
