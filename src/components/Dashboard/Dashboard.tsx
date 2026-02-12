@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, ShieldCheck, EyeOff, Power } from 'lucide-react'; 
+import { Lock, ShieldCheck, EyeOff, Power, AlertTriangle, FastForward } from 'lucide-react'; 
 import Typewriter from 'typewriter-effect';
 import CouponCard from './CouponCard';
 import LoveAnalysis from './LoveAnalysis';
 import BiometricScanner from '../BiometricScanner';
+import ValentineProtocol from './ValentineProtocol';
 
 // --- TUS CUPONES ---
 const INITIAL_COUPONS = [
@@ -16,17 +17,25 @@ const INITIAL_COUPONS = [
     { id: 6, title: "Deseo Libre", emoji: "✨", description: "Lo que desees xd." },
 ];
 
-type DashboardStage = 'intro' | 'analysis' | 'scanner' | 'coupons' | 'shutdown';
+type DashboardStage = 'intro' | 'analysis' | 'scanner' | 'overriding' | 'valentine' | 'coupons' | 'shutdown';
 
 export default function Dashboard() {
     const [stage, setStage] = useState<DashboardStage>('intro');
     const [redeemedIds, setRedeemedIds] = useState<number[]>([]);
     const [showFinalButton, setShowFinalButton] = useState(false);
+    const [hasCompletedBefore, setHasCompletedBefore] = useState(false);
 
     useEffect(() => {
+        // Cargar cupones canjeados
         const saved = localStorage.getItem('redeemedCoupons');
         if (saved) {
             setRedeemedIds(JSON.parse(saved));
+        }
+
+        // Verificar si ya completó la experiencia antes
+        const completed = localStorage.getItem('jarvis_experience_completed');
+        if (completed === 'true') {
+            setHasCompletedBefore(true);
         }
     }, []);
 
@@ -41,23 +50,23 @@ export default function Dashboard() {
     };
 
     const handleFullReset = () => {
+        // Marcar que ya completó la experiencia para mostrar el botón rápido la próxima vez
+        localStorage.setItem('jarvis_experience_completed', 'true');
         window.location.reload();
     };
 
     return (
-        // CONTENEDOR PRINCIPAL (Este tiene los bordes y el fondo rosa)
-        <div className="min-h-[100dvh] bg-gradient-to-br from-rose-100 to-teal-50 text-gray-800 font-sans overflow-hidden relative w-full max-w-md mx-auto shadow-2xl border-x-4 border-white/50 flex flex-col">
+        <div className="min-h-[100dvh] bg-gradient-to-br from-rose-100 to-teal-50 text-gray-800 font-sans overflow-hidden relative w-full max-w-md mx-auto shadow-2xl border-x-4 border-white/50 flex flex-col font-sans">
 
-            {/* HEADER */}
-            {stage !== 'shutdown' && (
+            {/* --- HEADER (Oculto en momentos cinemáticos) --- */}
+            {stage !== 'shutdown' && stage !== 'overriding' && (
                 <div className="border-b-2 border-rose-200 pb-1 mb-4 flex justify-between text-[8px] sm:text-[10px] tracking-widest uppercase font-bold opacity-60 mt-2 px-4 pt-2 shrink-0">
                     <span>Edición Especial</span>
                     <span>San Valentin 2026</span>
                 </div>
             )}
 
-            {/* CONTENIDO CAMBIANTE */}
-            <div className={`flex-1 flex flex-col relative ${stage !== 'shutdown' ? 'px-4 pb-4' : ''}`}>
+            <div className={`flex-1 flex flex-col relative ${stage !== 'shutdown' && stage !== 'overriding' ? 'px-4 pb-4' : ''}`}>
                 
                 {/* --- ETAPA 1: INTRO --- */}
                 {stage === 'intro' && (
@@ -81,7 +90,6 @@ export default function Dashboard() {
                             <img
                                 src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnVoeW43bXZ1YjdqcmhoYjhsbHFndnFjdWVnYmY2cndjeW5sMjN3MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bDDGrlodMHjmfJpVEx/giphy.gif"
                                 alt="Cute Seals"
-                                
                             />
                         </motion.div>
 
@@ -90,62 +98,104 @@ export default function Dashboard() {
                         </h1>
 
                         <div className="bg-white/80 backdrop-blur-sm p-5 rounded-xl shadow-md border border-white/60 text-sm leading-relaxed text-gray-600 text-center relative">
-                            <p>
-                                <span className="font-bold text-teal-600">Jarvis al habla 🤖</span>
-                            </p>
-                            <p className="mt-2">
-                                Hola Liz. Percy me programó para mostrarte algo bonito, pero... 
-                            </p>
-                            <p className="mt-2">
-                                mis sensores indican que no solo mandas aquí <br/>
-                                <strong>Tú eres la razón por la que su sistema funciona tan feliz.</strong>
+                             <div className="absolute -top-3 left-1/2 -ml-3 w-6 h-6 bg-rose-400 rounded-full border-4 border-white shadow-sm"></div>
+                            <p className="font-bold text-teal-600">Jarvis al habla 🤖</p>
+                            <p className="mt-2 leading-relaxed">
+                                Hola Liz. Percy me programó para mostrarte algo bonito, pero mis sensores indican que tú eres quien manda aquí en realidad.
+                                <br/><br/>
+                                <strong>Tú eres la razón por la que su sistema funciona tan feliz todos los días.</strong>
                             </p>
                             <br />
-                            <p>
-                                ¿Te parece si escaneamos a Percy para ver como lo tienes? 😉
-                            </p>
+                            <p>¿Te parece si escaneamos a Percy para ver cómo lo tienes? 😉</p>
                         </div>
 
-                        <div className="w-48 bg-white p-2 pb-8 rounded-sm shadow-lg rotate-2 hover:rotate-0 transition-all duration-500 relative border border-gray-100">
+                        <div className="w-90 bg-white p-2 pb-8 rounded-sm shadow-lg rotate-2 hover:rotate-0 transition-all duration-500 relative border border-gray-100">
                             <div className="aspect-[3/4] bg-gray-100 overflow-hidden relative">
-                                <img src="/foto1.jpg" alt="Nosotros" className="w-full h-full object-cover" />
+                                <img src="/nosotros.jpeg" alt="" className="w-full h-full object-cover" />
                             </div>
                             <p className="font-serif text-center text-gray-400 text-xs mt-2 italic">Nosotros</p>
                         </div>
 
-                        <button
-                            onClick={() => setStage('analysis')}
-                            className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white py-4 rounded-xl font-bold shadow-xl flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all mt-2"
-                        >
-                            <Lock className="w-4 h-4" />
-                            <span>ESCANEAR CORAZÓN DE PERCY</span>
-                        </button>
+                        <div className="w-full space-y-3 mt-2">
+                            <button
+                                onClick={() => setStage('analysis')}
+                                className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white py-4 rounded-xl font-bold shadow-xl flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all"
+                            >
+                                <Lock className="w-4 h-4" />
+                                <span>ESCANEAR CORAZÓN DE PERCY</span>
+                            </button>
+
+                            {/* --- BOTÓN SECRETO (Solo aparece si ya completó la historia una vez) --- */}
+                            {hasCompletedBefore && (
+                                <motion.button
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    onClick={() => setStage('coupons')}
+                                    className="w-full bg-white text-rose-500 py-2 rounded-xl font-bold border border-rose-200 shadow-sm flex items-center justify-center gap-2 hover:bg-rose-50 text-xs uppercase tracking-wider"
+                                >
+                                    <FastForward size={14} />
+                                    <span>Ir directo a mis Cupones</span>
+                                </motion.button>
+                            )}
+                        </div>
                     </motion.div>
                 )}
 
                 {/* --- ETAPA 2: ANALYSIS --- */}
                 {stage === 'analysis' && (
-                    <motion.div
-                         initial={{ opacity: 0 }}
-                         animate={{ opacity: 1 }}
-                         className="flex-1 flex flex-col justify-center"
-                    >
-                        <LoveAnalysis onComplete={() => setStage('scanner')} />
-                    </motion.div>
+                    <LoveAnalysis onComplete={() => setStage('scanner')} />
                 )}
 
                 {/* --- ETAPA 3: SCANNER --- */}
                 {stage === 'scanner' && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="flex-1 flex flex-col justify-center"
-                    >
-                        <BiometricScanner onScanComplete={() => setStage('coupons')} />
-                    </motion.div>
+                    <BiometricScanner onScanComplete={() => setStage('overriding')} />
                 )}
 
-                {/* --- ETAPA 4: CUPONES --- */}
+                {/* --- ETAPA NUEVA: OVERRIDING --- */}
+                {stage === 'overriding' && (
+                    <div className="fixed inset-0 w-full h-full bg-red-950/95 z-[100] flex flex-col justify-center items-center p-8 font-mono text-center">
+                        <motion.div 
+                            initial={{ scale: 0 }}
+                            animate={{ scale: [1, 1.2, 1] }}
+                            className="mb-6 text-red-500 bg-black/50 p-4 rounded-full border-2 border-red-500"
+                        >
+                            <AlertTriangle size={64} />
+                        </motion.div>
+                        
+                        <div className="text-red-400 text-sm sm:text-base leading-loose font-bold">
+                            <Typewriter
+                                onInit={(typewriter) => {
+                                    typewriter
+                                        .changeDelay(30)
+                                        .typeString('>> PROCESANDO SENTENCIA JUDICIAL...')
+                                        .pauseFor(800)
+                                        .typeString('<br>>> ¡ERROR CRÍTICO!')
+                                        .pauseFor(500)
+                                        .typeString('<br>>> IMPOSIBLE EJECUTAR CASTIGO.')
+                                        .pauseFor(500)
+                                        .typeString('<br>>> SUJETO: "LA REINA" TIENE INMUNIDAD.')
+                                        .pauseFor(1000)
+                                        .deleteAll(10)
+                                        .typeString('<span style="color: #4ade80;">>> ANULANDO SENTENCIA... OK.</span>')
+                                        .pauseFor(500)
+                                        .typeString('<br><span style="color: #4ade80;">>> ACCEDIENDO AL CORAZÓN DE PERCY...</span>')
+                                        .pauseFor(800)
+                                        .typeString('<br><span style="color: #fff;">>> CARGANDO VERDADERO MENSAJE...</span>')
+                                        .pauseFor(1000)
+                                        .callFunction(() => setStage('valentine'))
+                                        .start();
+                                }}
+                            />
+                        </div>
+                    </div>
+                )}
+
+                {/* --- ETAPA 4: VALENTINE --- */}
+                {stage === 'valentine' && (
+                    <ValentineProtocol onComplete={() => setStage('coupons')} />
+                )}
+
+                {/* --- ETAPA 5: CUPONES --- */}
                 {stage === 'coupons' && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
@@ -163,8 +213,8 @@ export default function Dashboard() {
                                 <p className="text-gray-600 text-xs italic">
                                     "¿Castigar a la Reina? ¡Jamás! 
                                     He hackeado el sistema para darte estos <strong>Cupones Secretos</strong>. 
-                                    Úsalos para controlar a Percy cuando quieras. Él no sabe que existen 🤫" <br /> <br /> <br />
-                                    LUEGO DE CANJEAR ALGUN CUPON NO TE OLVIDES DE VOLVER Y PRESIONAR EL BOTON DE <strong>CERRAR</strong>
+                                    Úsalos para controlar a Percy cuando quieras. Él no sabe que existen 🤫" <br /> <br />
+                                    LUEGO DE CANJEAR ALGÚN CUPÓN NO TE OLVIDES DE VOLVER Y PRESIONAR EL BOTÓN DE <strong>CERRAR</strong>
                                 </p>
                             </div>
                         </div>
@@ -200,10 +250,8 @@ export default function Dashboard() {
                     </motion.div>
                 )}
 
-                {/* --- ETAPA 5: SHUTDOWN (PANTALLA NEGRA FINAL A TELA COMPLETA) --- */}
+                {/* --- ETAPA 6: SHUTDOWN --- */}
                 {stage === 'shutdown' && (
-                    // CAMBIO CLAVE: Usamos 'fixed inset-0' y 'z-[200]' para cubrir TODO.
-                    // Y usamos los mismos estilos de padding y texto que Terminal.tsx
                     <div className="fixed inset-0 w-full h-full bg-black z-[200] flex flex-col justify-center items-center p-6 sm:p-12 text-green-500 font-mono">
                         <div className="text-sm sm:text-lg leading-loose w-full max-w-3xl flex flex-col items-center text-center">
                             <Typewriter
@@ -228,7 +276,7 @@ export default function Dashboard() {
                                         .pauseFor(3000)
                                         .typeString('<br>> ENVIANDO MENSAJE AL JEFE...')
                                         .pauseFor(500)
-                                        .typeString('<br>> "El plan salio a la perfeccion"')
+                                        .typeString('<br>> "El plan salió a la perfección"')
                                         .pauseFor(500)
                                         .callFunction(() => setShowFinalButton(true))
                                         .start();
@@ -240,9 +288,8 @@ export default function Dashboard() {
                             <motion.button
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ duration: 1 }}
                                 onClick={handleFullReset}
-                                className="mt-16 border-2 border-green-500 text-green-500 px-8 py-3 rounded-sm text-sm sm:text-base uppercase tracking-[0.2em] font-bold hover:bg-green-500/20 transition-colors animate-pulse"
+                                className="mt-16 border-2 border-green-500 text-green-500 px-8 py-3 rounded-sm text-sm uppercase tracking-[0.2em] font-bold hover:bg-green-500/20 transition-colors animate-pulse"
                             >
                                 [REINICIAR_SISTEMA.EXE]
                             </motion.button>
