@@ -1,15 +1,14 @@
 <div align="center">
+# 💘 Valentines
 
-# 💘 Valentines 
+
 
 Aplicación web interactiva hecha con **React** para pedirle a alguien especial que sea tu Valentine de una forma divertida.
 
-![React](https://img.shields.io/badge/React-18-61DAFB?logo=react\&logoColor=white)
+ ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react\&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript\&logoColor=black)
-![License](https://img.shields.io/badge/License-MIT-green)
-
+ ![License](https://img.shields.io/badge/License-MIT-green)
 </div>
-
 ---
 
 ## 🌐 Demo
@@ -34,7 +33,7 @@ Puedes ver el proyecto aquí:
 
 * React
 * JavaScript (ES6+)
-* CSS
+* Taildwind CSS
 
 ---
 
@@ -64,8 +63,6 @@ Ejecutar el proyecto:
 npm run dev
 ```
 
----
-
 ## 🛠️ Personalización
 
 Este proyecto está diseñado para que cualquiera pueda adaptarlo fácilmente para su persona especial. Puedes cambiar los nombres, las fotos, los cupones y hasta la contraseña de inicio. 
@@ -94,6 +91,19 @@ const INITIAL_COUPONS = [
     // Agrega o modifica los tuyos aquí...
 ];
 ```
+### 4. Numero de WhatsApp 
+Para que el botón de **¡Notificar al Jefe!** funcione y tu pareja te envíe el cupón canjeado a tu chat, debes poner tu número real.
+En el archivo *src/components/Dashboard/Dashboard.tsx*, busca la función handleRedeem y modifica la variable phone:
+
+```javascript
+// Pon tu código de país seguido de tu número, sin signos '+' ni espacios.
+// Ejemplo para Perú: 51 seguido de tu celular
+const phone = "5199999999";
+```
+
+### 5. Código de Acceso (Terminal)
+Hay  un archivo Terminal.tsx al inicio, no olvides cambiar la contraseña de desbloqueo (esa **fecha importante** o **código secreto** que solo ustedes dos conocen) para que pueda acceder al sistema.
+
 ---
 
 ## 📄 Licencia
