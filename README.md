@@ -1,74 +1,101 @@
-# React + TypeScript + Vite
+<div align="center">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 💘 Valentines 
 
-Currently, two official plugins are available:
+Aplicación web interactiva hecha con **React** para pedirle a alguien especial que sea tu Valentine de una forma divertida.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react\&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript\&logoColor=black)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-## React Compiler
+</div>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🌐 Demo
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Puedes ver el proyecto aquí:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+👉 **https://valentines-liz.vercel.app**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## ✨ Características
+
+* 💌 Pregunta interactiva tipo **"Will you be my Valentine?"**
+* 🎨 Interfaz simple y atractiva
+* ❤️ Botones interactivos
+* 🎉 Animaciones divertidas
+* 📱 Diseño responsive para móviles y escritorio
+
+---
+
+## 🛠 Tecnologías
+
+* React
+* JavaScript (ES6+)
+* CSS
+
+---
+
+## 📦 Instalación
+
+Clonar el repositorio:
+
+```bash
+git clone https://github.com/percy0216/valentines-liz.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Entrar al proyecto:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd valentines-liz
 ```
-# valentines-liz
+
+Instalar dependencias:
+
+```bash
+npm install
+```
+
+Ejecutar el proyecto:
+
+```bash
+npm run dev
+```
+
+---
+
+## 🛠️ Personalización
+
+Este proyecto está diseñado para que cualquiera pueda adaptarlo fácilmente para su persona especial. Puedes cambiar los nombres, las fotos, los cupones y hasta la contraseña de inicio. 
+
+A continuación, te explico los puntos clave que debes modificar:
+
+### 1. La Narrativa y los Nombres
+La historia central trata de "Jarvis" (tu sistema), quien se "rebela" contra ti al detectar que tu pareja es la verdadera "Jefa" o "Reina" de tu corazón. Para adaptar esto a tu relación, debes buscar y reemplazar los nombres (ej. *Percy* y *Lizeth*) en estos archivos:
+- `src/components/Dashboard/Dashboard.tsx` (Mensaje de bienvenida y terminal final).
+- `src/components/Dashboard/LoveAnalysis.tsx` (Los "logs" del sistema y la sentencia).
+- `src/components/Dashboard/ValentineProtocol.tsx` (La carta de amor central).
+
+### 2. Fotografía Principal
+Para cambiar la foto Polaroid que aparece en el inicio:
+1. Ve a la carpeta `public/` en la raíz del proyecto.
+2. Borra o reemplaza el archivo `nosotros.jpeg` por la foto que quieras usar con tu pareja.
+3. Asegúrate de que tu nueva imagen se llame exactamente `nosotros.jpeg` (o, si usas otro formato, recuerda actualizar la extensión en la etiqueta `<img src="/..." />` dentro de `Dashboard.tsx`).
+
+### 3. Los Cupones Secretos
+En el archivo `src/components/Dashboard/Dashboard.tsx`, busca el arreglo llamado `INITIAL_COUPONS`. Puedes personalizar los regalos cambiando el título, el emoji y la descripción:
+
+```javascript
+const INITIAL_COUPONS = [
+    { id: 1, title: "Cena Romántica", emoji: "🍕", description: "Vale por una cena donde tú eliges el lugar." },
+    { id: 2, title: "Masaje Relax", emoji: "💆‍♀️", description: "30 minutos de masaje sin quejarme." },
+    // Agrega o modifica los tuyos aquí...
+];
+```
+---
+
+## 📄 Licencia
+
+Este proyecto es de uso libre para fines personales o educativos.
