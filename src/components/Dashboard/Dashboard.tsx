@@ -224,7 +224,6 @@ export default function Dashboard() {
                                 <CouponCard
                                     key={coupon.id}
                                     {...coupon}
-                                    isRedeemed={redeemedIds.includes(coupon.id)}
                                     onRedeem={handleRedeem}
                                 />
                             ))}

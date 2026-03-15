@@ -1,31 +1,27 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { ShieldCheck, Gavel, ExternalLink } from 'lucide-react'; // Iconos para el toque legal/hacker
+import { ShieldCheck, Gavel, ExternalLink } from 'lucide-react';
 
 interface CouponProps {
   id: number;
   title: string;
   emoji: string;
   description: string;
-  isRedeemed: boolean;
   onRedeem: (id: number, title: string) => void;
 }
 
-export default function CouponCard({ id, title, emoji, description, isRedeemed, onRedeem }: CouponProps) {
+export default function CouponCard({ id, title, emoji, description, onRedeem }: CouponProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const handleClick = () => {
-    if (!isRedeemed) {
-      setIsFlipped(!isFlipped);
-    }
+    setIsFlipped(!isFlipped);
   };
 
   const handleRedeemClick = (e: React.MouseEvent) => {
     e.stopPropagation(); 
     onRedeem(id, title);
     
-    // Confeti con los colores de tu tema (Rojo, Oro, Blanco)
     confetti({
       particleCount: 60,
       spread: 70,
@@ -42,40 +38,24 @@ export default function CouponCard({ id, title, emoji, description, isRedeemed, 
         transition={{ duration: 0.6, type: "spring", stiffness: 260, damping: 20 }}
       >
         
-        {/* --- CARA FRONTAL (Archivo Confidencial) --- */}
-        <div className={`absolute w-full h-full backface-hidden rounded-2xl shadow-xl border-2 flex flex-col items-center justify-center p-4 transition-colors ${
-          isRedeemed 
-          ? 'bg-gray-100 border-gray-300 grayscale' 
-          : 'bg-white border-rose-200 hover:border-rose-400'
-        }`}>
-          {/* Badge de Jarvis en la esquina */}
-          {!isRedeemed && (
-            <div className="absolute top-2 right-2 text-teal-500/30">
-              <ShieldCheck size={16} />
-            </div>
-          )}
+        {/* --- CARA FRONTAL --- */}
+        <div className="absolute w-full h-full backface-hidden rounded-2xl shadow-xl border-2 flex flex-col items-center justify-center p-4 transition-colors bg-white border-rose-200 hover:border-rose-400">
+          
+          <div className="absolute top-2 right-2 text-teal-500/30">
+            <ShieldCheck size={16} />
+          </div>
 
           <div className="text-5xl mb-3 drop-shadow-sm">{emoji}</div>
-          <h3 className={`font-serif font-bold text-xs uppercase tracking-tighter leading-tight ${
-            isRedeemed ? 'text-gray-400' : 'text-rose-600'
-          }`}>
+          <h3 className="font-serif font-bold text-xs uppercase tracking-tighter leading-tight text-rose-600">
             {title}
           </h3>
 
-          {isRedeemed ? (
-            <div className="absolute inset-0 flex items-center justify-center bg-white/40 rounded-2xl backdrop-blur-[1px]">
-              <span className="border-4 border-red-600 text-red-600 font-black text-xl px-2 py-1 -rotate-12 shadow-sm bg-white/90">
-                COBRADO
-              </span>
-            </div>
-          ) : (
-            <div className="mt-3 flex items-center gap-1 text-[9px] text-gray-400 font-mono uppercase tracking-widest animate-pulse">
-              <span>Ver Beneficio</span>
-            </div>
-          )}
+          <div className="mt-3 flex items-center gap-1 text-[9px] text-gray-400 font-mono uppercase tracking-widest animate-pulse">
+            <span>Ver Beneficio</span>
+          </div>
         </div>
 
-        {/* --- CARA TRASERA (Orden Judicial de Cobro) --- */}
+        {/* --- CARA TRASERA --- */}
         <div 
             className="absolute w-full h-full backface-hidden rounded-2xl shadow-2xl bg-[#fffdf9] border-2 border-rose-300 p-4 flex flex-col items-center justify-between my-rotate-y-180"
             style={{ backgroundImage: 'radial-gradient(#fecdd3 0.5px, transparent 0.5px)', backgroundSize: '10px 10px' }}
